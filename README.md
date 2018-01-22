@@ -20,9 +20,11 @@ Build a voting system for deciding where to have lunch.
 To initialize database you need to add a scheme 'restaurants' in MySQL and start FillingDatabase class from sql package of this project.
 After that your MYSQL will be ready to work.
 Then it's important to login by "admin":"admin" with a Basic Auth and open '/api/v1/roles' POST to initialize roles.
+
 You can also register new users using '/api/v1/users POST'. Username and password that you fill in a Basic Auth form
-will be save into database. Any of them will automatically have a role 'user'. There is the only one user with a role 'admin'
-using username: "admin" and password: "admin".
+will be save into database. Any of them will automatically have a role 'user'. This is available for any users.
+
+There is the only one user with a role 'admin' using username: "admin" and password: "admin".
 
 There is also '/api/v1/menu' POST which is only available for admins. You must send a json like this
 {
