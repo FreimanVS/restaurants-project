@@ -23,8 +23,6 @@ import java.util.stream.Collectors;
 @RequestMapping(value = "/api/v1")
 public class APIv1 {
 
-    private static final String MAIN = "/api/v1";
-
     @Autowired
     private TheService<Restaurant> restService;
 
@@ -37,6 +35,30 @@ public class APIv1 {
     @Autowired
     private TheService<Role> roleService;
 
+
+    @PostMapping(value = "/roles")
+    @ResponseBody
+    public ResponseEntity<?> saveRole() {
+
+        /*List<Role>roles = roleService.getList();
+        if (roles != null || !roles.isEmpty()) {
+            boolean roleExist = roles.stream().anyMatch(r -> r.getName().equals("user") || r.getName().equals("admin"));
+            if (roleExist) {
+                return ResponseEntity.status(404).body("Roles are already created");
+            }
+        }*/
+
+        Role user = new Role();
+        user.setName("user");
+
+//        Role admin = new Role();
+//        admin.setName("admin");
+
+        roleService.add(user);
+//        roleService.add(admin);
+
+        return ResponseEntity.status(201).body("Roles have been added");
+    }
 
     //update a restaurant
     @PutMapping(value = "/restaurants/{id}", consumes = "application/json")

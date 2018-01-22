@@ -9,7 +9,7 @@
 		http://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <!--MySQL-->
-    <!--<bean id="myDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+    <bean id="myDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
           destroy-method="close">
         <property name="driverClass" value="com.mysql.jdbc.Driver" />
 
@@ -32,10 +32,10 @@
             <prop key="hibernate.show_sql">true</prop>
         </props>
     </property>
-    </bean>-->
+    </bean>
 
     <!--H2db-->
-    <bean id="myDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+    <!--<bean id="myDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
           destroy-method="close">
         <property name="driverClass" value="org.h2.Driver" />
 
@@ -58,7 +58,7 @@
                 <prop key="hibernate.show_sql">true</prop>
             </props>
         </property>
-    </bean>
+    </bean>-->
 
     <bean id="myTransactionManager"
           class="org.springframework.orm.hibernate5.HibernateTransactionManager">

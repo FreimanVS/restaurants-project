@@ -2,7 +2,6 @@ package com.freimanvs.restaurants.sql;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.Statement;
 
 /**
@@ -10,16 +9,16 @@ import java.sql.Statement;
  * @version 1.0
  */
 public class FillingDatabase {
-//    private static final String URL = "jdbc:mysql://localhost/restaurants?useSSL=false";
-    private static final String URL = "jdbc:h2:~/test";
+    private static final String URL = "jdbc:mysql://localhost/restaurants?useSSL=false";
+//    private static final String URL = "jdbc:h2:~/test";
     private static final String LOGIN = "root";
     private static final String PASSWORD = "pass";
 
     public static void main(String[] args) {
 
         try {
-//            String driver = "com.mysql.jdbc.Driver";
-            String driver = "org.h2.Driver";
+            String driver = "com.mysql.jdbc.Driver";
+//            String driver = "org.h2.Driver";
             Class.forName(driver);
         } catch (Exception e) {
             System.out.println("An error of a driver");
@@ -123,7 +122,7 @@ public class FillingDatabase {
                         "\n" +
                         ");");
 
-                statement.executeUpdate("INSERT INTO restaurants.role (name) VALUES ('user');");
+                /*statement.executeUpdate("INSERT INTO restaurants.role (name) VALUES ('user');");
                 statement.executeUpdate("INSERT INTO restaurants.role (name) VALUES ('admin');");
 
                 statement.executeUpdate("INSERT INTO restaurants.user (username, password) VALUES ('user', 'user');");
@@ -205,7 +204,7 @@ public class FillingDatabase {
                     String dish = resultSet.getString("dish");
                     Double price = resultSet.getDouble("price");
                     System.out.println("id = " + id + ", dish = " + dish + ", price = " + price);
-                }
+                }*/
 
 
             } catch (Exception e) {
