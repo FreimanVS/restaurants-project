@@ -17,7 +17,7 @@ Build a voting system for deciding where to have lunch.
         If it is after 11:00 then it is too late, vote can't be changed
 -------------------------------------------------------------------------
 
-To initialize database you need to start FillingDatabase class from sql package of this project and add a scheme 'restaurants'.
+To initialize database you need to add a scheme 'restaurants' in MySQL and start FillingDatabase class from sql package of this project.
 After that your MYSQL will be ready to work.
 Then it's important to login by "admin":"admin" with a Basic Auth and open '/api/v1/roles' POST to initialize roles.
 You can also register new users using '/api/v1/users POST'. Username and password that you fill in a Basic Auth form
