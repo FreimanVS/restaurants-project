@@ -24,9 +24,6 @@ You can also register new users using '/api/v1/users POST'. Username and passwor
 will be save into database. Any of them will automatically have a role 'user'. There is the only one user with a role 'admin'
 using username: "admin" and password: "admin".
 
-You can also use '/api/v1/vote/{id}' PUT being logged in, where {id} is the id of the restaurant,
-in order to vote for a restaurant that the user wants to visit.
-
 There is also '/api/v1/menu' POST which is only available for admins. You must send a json like this
 {
 	"dish": "burger",
@@ -46,7 +43,7 @@ The '/api/v1/restaurants' POST will add a new restaurant to the database. This i
 }
 Only for admins.
 
-To change existed restaurant or to add a menu to a restaurant you must use '/api/v1//restaurants/{id}' PUT
+To change existed restaurant or to add a menu to a restaurant you must use '/api/v1/restaurants/{id}' PUT
 where {id} is the id of the restaurant you want to change or add menu and send a json like this
 {
 	"name": "BurgerKing",
@@ -62,3 +59,6 @@ where {id} is the id of the restaurant you want to change or add menu and send a
 		}]
 }
 where each menu has to be added by id. Only for admins.
+
+Customers use '/api/v1/vote/{id}' PUT being logged in, where {id} is the id of the restaurant,
+in order to vote for a restaurant that the customer wants to visit.
