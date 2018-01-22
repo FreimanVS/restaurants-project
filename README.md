@@ -17,7 +17,8 @@ Build a voting system for deciding where to have lunch.
         If it is after 11:00 then it is too late, vote can't be changed
 -------------------------------------------------------------------------
 
-To initialize database you need to start FillingDatabase class from sql package of this project. After that your H2DB will be ready to work.
+To initialize database you need to start FillingDatabase class from sql package of this project. After that your MYSQL will be ready to work.
+Firsty you need to login by "admin":"admin" with a Basic Auth and open '/api/v1/roles' POST to initialize roles.
 You can also register new users using '/api/v1/users POST'. Username and password that you fill in a Basic Auth form
 will be save into database. Any of them will automatically have a role 'user'. There is the only one user with a role 'admin'
 using username: "admin" and password: "admin".
