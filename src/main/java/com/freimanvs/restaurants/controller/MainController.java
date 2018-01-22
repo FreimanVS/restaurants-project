@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * @author Brightsunrise
+ * @author Freiman V.S.
  * @version 1.0
  */
 @RestController

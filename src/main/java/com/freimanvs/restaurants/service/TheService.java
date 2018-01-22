@@ -3,7 +3,7 @@ package com.freimanvs.restaurants.service;
 import java.util.List;
 
 /**
- * @author Brightsunrise
+ * @author Freiman V.S.
  * @version 1.0
  */
 public interface TheService<T> {

@@ -7,11 +7,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * @author Brightsunrise
+ * @author Freiman V.S.
  * @version 1.0
  */
 @Entity
-@Table(name="menu")
+@Table(name="menu", schema = "restaurants")
 public class Menu {
 
     @Id

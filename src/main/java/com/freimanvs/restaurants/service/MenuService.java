@@ -4,7 +4,7 @@ import com.freimanvs.restaurants.entity.Menu;
 import org.springframework.stereotype.Service;
 
 /**
- * @author Brightsunrise
+ * @author Freiman V.S.
  * @version 1.0
  */
 @Service

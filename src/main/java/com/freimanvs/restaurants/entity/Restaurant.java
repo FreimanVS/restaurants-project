@@ -5,11 +5,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * @author Brightsunrise
+ * @author Freiman V.S.
  * @version 1.0
  */
 @Entity
-@Table(name="rest")
+@Table(name="rest", schema = "restaurants")
 public class Restaurant {
 
     @Id

@@ -3,7 +3,7 @@ package com.freimanvs.restaurants.dao;
 import java.util.List;
 
 /**
- * @author Brightsunrise
+ * @author Freiman V.S.
  * @version 1.0
  */
 public interface DAO<T> {

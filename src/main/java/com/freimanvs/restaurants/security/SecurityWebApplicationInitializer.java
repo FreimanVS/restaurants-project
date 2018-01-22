@@ -1,7 +1,7 @@
 package com.freimanvs.restaurants.security;
 
 /**
- * @author Brightsunrise
+ * @author Freiman V.S.
  * @version 1.0
  */
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
