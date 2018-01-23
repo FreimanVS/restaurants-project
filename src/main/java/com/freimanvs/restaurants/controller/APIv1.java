@@ -339,7 +339,7 @@ public class APIv1 {
         long id =userService.add(newUser);
 
         String result = "The user \"id\": " + id + ", \"username\": \"" + username +
-                "\", \"role\": \"" + roleUser.getName() + "\" has been added";
+                "\", \"role\": \"" + roleUser.getName() + "\" has been added\r\n";
         FileManager.log(result, USERS_LOG, true);
 
         return ResponseEntity.status(201).body(result);
