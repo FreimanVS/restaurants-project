@@ -66,4 +66,12 @@ public class Restaurant {
     public void setMenu(Set<Menu> menu) {
         this.menu = menu;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "name='" + name + '\'' +
+                ", menu=" + menu +
+                '}';
+    }
 }

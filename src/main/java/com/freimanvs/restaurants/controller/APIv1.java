@@ -5,6 +5,7 @@ import com.freimanvs.restaurants.entity.Restaurant;
 import com.freimanvs.restaurants.entity.Role;
 import com.freimanvs.restaurants.entity.User;
 import com.freimanvs.restaurants.service.TheService;
+import com.freimanvs.restaurants.utils.FileManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,10 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping(value = "/api/v1")
 public class APIv1 {
+
+    private static final String RESTS_MENU_LOG = "restaurants_menu_log.txt";
+    private static final String VOTES_LOG = "votes_log.txt";
+    private static final String USERS_LOG = "users_log.txt";
 
     @Autowired
     private TheService<Restaurant> restService;
@@ -67,6 +72,10 @@ public class APIv1 {
             return ResponseEntity.status(400).body("You can only add a restaurant from a user, not vice versa");
         }
 
+        if (rest.getMenu().isEmpty() && rest.getName() == null) {
+            return ResponseEntity.status(400).body("You need to fill 'name' OR ('dish' AND 'price') fields");
+        }
+
         boolean idExist = rest.getMenu().stream().allMatch(m -> m.getId() != 0L);
         if (!idExist) {
             return ResponseEntity.status(422).body("You must specify ID of each menu");
@@ -77,7 +86,6 @@ public class APIv1 {
         Map<Long, Menu> mapFromDB = new HashMap<>();
         menuListFromDB.stream().forEach(m -> mapFromDB.put(m.getId(), m));
 
-
         Set<Long> longs = rest.getMenu().stream().map(Menu::getId).collect(Collectors.toSet());
         boolean ok = longs.stream().allMatch(mapFromDB::containsKey);
         if (!ok) {
@@ -87,10 +95,16 @@ public class APIv1 {
         Set<Menu> requestSetMenu = longs.stream().map(mapFromDB::get).collect(Collectors.toSet());
         rest.setMenu(requestSetMenu);
 
-
         restService.updateById(rest_id, rest);
 
-        return ResponseEntity.status(200).body("Done!");
+        String rest_menu_binding = "";
+        if (!rest.getMenu().isEmpty()) {
+            rest_menu_binding = "The menu " + requestSetMenu.toString() +
+                    " have been added into the restaurant by id: " + rest_id + "\r\n";
+            FileManager.log(rest_menu_binding, RESTS_MENU_LOG, true);
+        }
+
+        return ResponseEntity.status(200).body(rest.getMenu().isEmpty() ? "Done!" : rest_menu_binding);
     }
 
     //update menu
@@ -130,7 +144,14 @@ public class APIv1 {
 
         menuService.updateById(menu_id, menu);
 
-        return ResponseEntity.status(200).body("Done!");
+        String result = "Menu has been changed. " + "{" +
+                "\"id\": " + menu_id +
+                ", \"dish\": \"" + menu.getDish() + '\"' +
+                ", \"price\": " + menu.getPrice() +
+                "}\r\n";
+        FileManager.log(result, RESTS_MENU_LOG, true);
+
+        return ResponseEntity.status(200).body(result);
     }
 
     //add a new restaurant
@@ -162,7 +183,11 @@ public class APIv1 {
 
         long id = restService.add(restaurant);
 
-        return ResponseEntity.status(201).body("The restaurant has been added");
+        String result = "The restaurant by \"id\": " + id + ", \"name\": \"" +
+                restaurant.getName() + "\" has been added\r\n";
+        FileManager.log(result, RESTS_MENU_LOG, true);
+
+        return ResponseEntity.status(201).body(result);
     }
 
     //add new menu
@@ -190,9 +215,13 @@ public class APIv1 {
             return ResponseEntity.status(400).body("Such dish with the same price already exists");
         }
 
-        menuService.add(menu);
+        long id = menuService.add(menu);
 
-        return ResponseEntity.status(201).body("The entity has been added");
+        String result = "The menu {\"id\": " + id + ", \"dish\": \"" + menu.getDish() +
+                "\", \"price\": " + menu.getPrice() + "} has been added\r\n";
+        FileManager.log(result, RESTS_MENU_LOG, true);
+
+        return ResponseEntity.status(201).body(result);
     }
 
     //voting
@@ -255,7 +284,12 @@ public class APIv1 {
         user.setLast_vote(now);
         user.setRest(restFromDB);
         userService.updateById(user.getId(), user);
-        return ResponseEntity.status(200).body("Done!");
+
+        String result = "The user \"id\": " + user.getId() +
+                ", \"username\": \"" + username + "\" voted for the restaurant \"id\": " + rest_id + "\r\n";
+        FileManager.log(result, VOTES_LOG, true);
+
+        return ResponseEntity.status(200).body(result);
     }
 
     //registration
@@ -302,8 +336,12 @@ public class APIv1 {
         }
         newUser.getRoles().add(roleUser);
 
-        userService.add(newUser);
+        long id =userService.add(newUser);
 
-        return ResponseEntity.status(201).body("New user has been added");
+        String result = "The user \"id\": " + id + ", \"username\": \"" + username +
+                "\", \"role\": \"" + roleUser.getName() + "\" has been added";
+        FileManager.log(result, USERS_LOG, true);
+
+        return ResponseEntity.status(201).body(result);
     }
 }

@@ -63,4 +63,13 @@ public class Menu {
     public void setRests(Set<Restaurant> rests) {
         this.rests = rests;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "\"id\": " + id +
+                ", \"dish\": \"" + dish + '\"' +
+                ", \"price\": " + price +
+                '}';
+    }
 }
