@@ -17,7 +17,7 @@ Build a voting system for deciding where to have lunch.
         If it is after 11:00 then it is too late, vote can't be changed
 -------------------------------------------------------------------------
 
-First of you it's useful to initialize H2DB database filling it with some data,
+First of all it's useful to initialize H2DB database filling it with some data,
 just launch com.freimanvs.restaurants.sql.RestoreData class. After that your H2db will be ready to work.
 
 You can also register new users using '/api/v1/users' POST. Username and password that you fill in a Basic Auth form
