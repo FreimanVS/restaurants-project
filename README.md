@@ -65,4 +65,4 @@ Customers use '/api/v1/vote/{id}' PUT being logged in, where {id} is the id of t
 wants to visit.
 
 If you want to look at a full list of restaurants with menu into it you can use '/api/v1/restaurants' GET request.
-You will get a json with the full information in such case.
+This will produce a json with the full information for you.
