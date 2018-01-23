@@ -36,16 +36,12 @@ public class APIv1 {
     private TheService<Role> roleService;
 
 
-    @PostMapping(value = "/roles")
+    //get all restaurants
+    @RequestMapping(value = "/restaurants", method=RequestMethod.GET, produces="application/json")
     @ResponseBody
-    public ResponseEntity<?> saveRole() {
-
-        Role user = new Role();
-        user.setName("user");
-
-        roleService.add(user);
-
-        return ResponseEntity.status(201).body("Roles have been added");
+    public ResponseEntity<?> listRests() {
+        List<Restaurant> rests = restService.getList();
+        return ResponseEntity.status(200).body(rests);
     }
 
     //update a restaurant
@@ -267,7 +263,6 @@ public class APIv1 {
         userService.updateById(user.getId(), user);
         return ResponseEntity.status(200).body("Done!");
     }
-
 
     //registration
     @PostMapping(value = "/users")

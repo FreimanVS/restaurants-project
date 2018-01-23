@@ -1,6 +1,7 @@
 package com.freimanvs.restaurants.dao;
 
 import com.freimanvs.restaurants.entity.Restaurant;
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -35,7 +36,11 @@ public class RestDAO implements DAO<Restaurant> {
     public List<Restaurant> getList() {
         Session session = sessionFactory.getCurrentSession();
         Query<Restaurant> query = session.createQuery("from Restaurant", Restaurant.class);
-        return query.getResultList();
+        List<Restaurant> list = query.getResultList();
+        list.forEach(r -> r.getMenu().size());
+        list.forEach(r -> Hibernate.initialize(r));
+        list.forEach(r -> Hibernate.initialize(r.getMenu()));
+        return list;
     }
 
     @Override

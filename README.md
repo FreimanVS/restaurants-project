@@ -17,16 +17,16 @@ Build a voting system for deciding where to have lunch.
         If it is after 11:00 then it is too late, vote can't be changed
 -------------------------------------------------------------------------
 
-To initialize database you need to add a scheme 'restaurants' in MySQL and start FillingDatabase class from sql package of this project.
-After that your MYSQL will be ready to work.
-Then it's important to login by "admin":"admin" with a Basic Auth and open '/api/v1/roles' POST to initialize roles.
+First of you it's useful to initialize H2DB database filling it with some data,
+just launch com.freimanvs.restaurants.sql.RestoreData class. After that your H2db will be ready to work.
 
 You can also register new users using '/api/v1/users POST'. Username and password that you fill in a Basic Auth form
-will be save into database. Any of them will automatically have a role 'user'. This is available for any users.
+will be saved into the database. Any of them will automatically have a role 'user'. This is available for any users.
 
-There is the only one user with a role 'admin' using username: "admin" and password: "admin".
+There is the only one user with a role 'admin'. Username: "admin" and password: "admin".
+You can add new users with 'admin' role in com.freimanvs.restaurants.security.SecurityConfiguration class, if it is necessary.
 
-There is also '/api/v1/menu' POST which is only available for admins. You must send a json like this
+There is also '/api/v1/menu' POST which is only available for admins. It addes new dishes in the database. You must send a json like this
 {
 	"dish": "burger",
 	"price": 3
@@ -43,10 +43,9 @@ The '/api/v1/restaurants' POST will add a new restaurant to the database. This i
 {
 	"name": "McDonalds"
 }
-Only for admins.
 
-To change existed restaurant or to add a menu to a restaurant you must use '/api/v1/restaurants/{id}' PUT
-where {id} is the id of the restaurant you want to change or add menu and send a json like this
+To change existed restaurant or to add a menu into a restaurant you must use '/api/v1/restaurants/{id}' PUT
+where {id} is the id of the restaurant you want to change or add menu into it and send a json like this
 {
 	"name": "BurgerKing",
 	"menu": [
@@ -62,5 +61,8 @@ where {id} is the id of the restaurant you want to change or add menu and send a
 }
 where each menu has to be added by id. Only for admins.
 
-Customers use '/api/v1/vote/{id}' PUT being logged in, where {id} is the id of the restaurant,
-in order to vote for a restaurant that the customer wants to visit.
+Customers use '/api/v1/vote/{id}' PUT being logged in, where {id} is the id of the restaurant the customer
+wants to visit.
+
+If you want to look at a full list of restaurants with menu into it you can use '/api/v1/restaurants' GET request.
+You will get a json with the full information in such case.

@@ -1,5 +1,7 @@
 package com.freimanvs.restaurants.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -20,6 +22,7 @@ public class Restaurant {
     @Column(name="name")
     private String name;
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "rest")
     private Set<User> users = new HashSet<>();
 
@@ -62,14 +65,5 @@ public class Restaurant {
 
     public void setMenu(Set<Menu> menu) {
         this.menu = menu;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder("{" +
-                "\"id\": " + id + ",\r\n" +
-                "\"name\": \"" + name + '\"' +
-                '}');
-        return sb.toString();
     }
 }
