@@ -16,7 +16,7 @@ import java.sql.Statement;
 import java.util.Scanner;
 
 public class RestoreData {
-//    private static final String URL = "jdbc:mysql://localhost/restaurants?useSSL=false";
+    //    private static final String URL = "jdbc:mysql://localhost/restaurants?useSSL=false";
     private static final String URL = "jdbc:h2:~/test";
     private static final String LOGIN = "root";
     private static final String PASSWORD = "pass";
@@ -26,7 +26,7 @@ public class RestoreData {
     private void initFiles() {
 
         FileManager.writeToFile(
-                        "CREATE SCHEMA IF NOT EXISTS restaurants;\n" +
+                "CREATE SCHEMA IF NOT EXISTS restaurants;\n" +
                         "\n" +
                         "DROP TABLE IF EXISTS restaurants.user_rest;\n" +
                         "DROP TABLE IF EXISTS restaurants.user_role;\n" +
@@ -48,6 +48,13 @@ public class RestoreData {
                         " PRIMARY KEY (id)\n" +
                         "\n" +
                         ")" +
+//                        "\n" +
+//                        "\n" +
+//                        "ENGINE = InnoDB\n" +
+//                        "DEFAULT \n" +
+//                        "CHARACTER SET = utf8\n" +
+//                        "\n" +
+//                        "COLLATE = utf8_general_ci" +
                         ";\n" +
                         "\n" +
                         "\n" +
@@ -72,6 +79,13 @@ public class RestoreData {
                         "\n" +
                         "CONSTRAINT user_restid_rest_id FOREIGN KEY (rest_id) REFERENCES restaurants.rest(id)\n" +
                         ")" +
+//                        "\n" +
+//                        "\n" +
+//                        "ENGINE = InnoDB\n" +
+//                        "\n" +
+//                        "DEFAULT CHARACTER SET = utf8\n" +
+//                        "\n" +
+//                        "COLLATE = utf8_general_ci" +
                         ";\n" +
                         "\n" +
                         "\n" +
@@ -86,6 +100,13 @@ public class RestoreData {
                         "CONSTRAINT uniq_name_role UNIQUE (name)\n" +
                         "\n" +
                         ")" +
+//                        "\n" +
+//                        "\n" +
+//                        "ENGINE = InnoDB\n" +
+//                        "\n" +
+//                        "DEFAULT CHARACTER SET = utf8\n" +
+//                        "\n" +
+//                        "COLLATE = utf8_general_ci" +
                         ";\n" +
                         "\n" +
                         "\n" +
@@ -105,6 +126,13 @@ public class RestoreData {
                         "CONSTRAINT fk_role_name_user_role FOREIGN KEY (role_id) REFERENCES restaurants.role(id)\n" +
                         "\n" +
                         ")" +
+//                        "\n" +
+//                        "\n" +
+//                        "ENGINE = InnoDB\n" +
+//                        "\n" +
+//                        "DEFAULT CHARACTER SET = utf8\n" +
+//                        "\n" +
+//                        "COLLATE = utf8_general_ci" +
                         ";\n" +
                         "\n" +
                         "\n" +
@@ -124,6 +152,13 @@ public class RestoreData {
                         "CONSTRAINT uniq_dish_price_menu UNIQUE (dish, price)\n" +
                         "\n" +
                         ")" +
+//                        "\n" +
+//                        "\n" +
+//                        "ENGINE = InnoDB\n" +
+//                        "\n" +
+//                        "DEFAULT CHARACTER SET = utf8\n" +
+//                        "\n" +
+//                        "COLLATE = utf8_general_ci" +
                         ";\n" +
                         "\n" +
                         "\n" +
@@ -143,6 +178,13 @@ public class RestoreData {
                         "CONSTRAINT fk_menu_id_menu FOREIGN KEY (menu_id) REFERENCES restaurants.menu(id)\n" +
                         "\n" +
                         ")" +
+//                        "\n" +
+//                        "\n" +
+//                        "ENGINE = InnoDB\n" +
+//                        "\n" +
+//                        "DEFAULT CHARACTER SET = utf8\n" +
+//                        "\n" +
+//                        "COLLATE = utf8_general_ci" +
                         ";", TABLES);
         FileManager.writeToFile("Role user\n" +
                 "Role admin\n" +

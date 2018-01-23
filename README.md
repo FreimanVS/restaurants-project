@@ -20,7 +20,7 @@ Build a voting system for deciding where to have lunch.
 First of you it's useful to initialize H2DB database filling it with some data,
 just launch com.freimanvs.restaurants.sql.RestoreData class. After that your H2db will be ready to work.
 
-You can also register new users using '/api/v1/users POST'. Username and password that you fill in a Basic Auth form
+You can also register new users using '/api/v1/users' POST. Username and password that you fill in a Basic Auth form
 will be saved into the database. Any of them will automatically have a role 'user'. This is available for any users.
 
 There is the only one user with a role 'admin'. Username: "admin" and password: "admin".
