@@ -59,7 +59,7 @@ where {id} is the id of the restaurant you want to change or add menu into it an
 			"id": 3
 		}]
 }
-where each menu has to be added by id. Only for admins.
+where each menu has to content its id. Only for admins.
 
 Customers use '/api/v1/vote/{id}' PUT being logged in, where {id} is the id of the restaurant the customer
 wants to visit.
