@@ -35,10 +35,8 @@ public class APIv1 {
     @Autowired
     private TheService<Role> roleService;
 
-
     //get all restaurants
-    @RequestMapping(value = "/restaurants", method=RequestMethod.GET, produces="application/json")
-    @ResponseBody
+    @GetMapping(value = "/restaurants", produces="application/json")
     public ResponseEntity<?> listRests() {
         List<Restaurant> rests = restService.getList();
         return ResponseEntity.status(200).body(rests);
@@ -52,26 +50,26 @@ public class APIv1 {
 
         String auth = request.getHeader("Authorization");
         if (auth == null) {
-            return ResponseEntity.status(404).body("You have to login by Basic Auth");
+            return ResponseEntity.status(403).body("You have to login by Basic Auth");
         }
 
         String json = request.getHeader("Content-Type");
         if (json == null || !json.equals("application/json")) {
-            return ResponseEntity.status(404).body("You have to send JSON");
+            return ResponseEntity.status(400).body("You have to send JSON");
         }
 
         boolean idRestExist = restService.getList().stream().anyMatch(r -> r.getId() == rest_id);
         if (!idRestExist) {
-            return ResponseEntity.status(404).body("There is no a restaurant with this ID");
+            return ResponseEntity.status(400).body("There is no a restaurant with this ID");
         }
 
         if (!rest.getUsers().isEmpty()) {
-            return ResponseEntity.status(404).body("You can only add a restaurant from a user, not vice versa");
+            return ResponseEntity.status(400).body("You can only add a restaurant from a user, not vice versa");
         }
 
         boolean idExist = rest.getMenu().stream().allMatch(m -> m.getId() != 0L);
         if (!idExist) {
-            return ResponseEntity.status(404).body("You must specify ID of each menu");
+            return ResponseEntity.status(422).body("You must specify ID of each menu");
         }
 
         //checking if all of the menu from order are exist in database
@@ -83,7 +81,7 @@ public class APIv1 {
         Set<Long> longs = rest.getMenu().stream().map(Menu::getId).collect(Collectors.toSet());
         boolean ok = longs.stream().allMatch(mapFromDB::containsKey);
         if (!ok) {
-            return ResponseEntity.status(404).body("Not all of the dishes exist in database");
+            return ResponseEntity.status(400).body("Not all of the dishes exist in database");
         }
 
         Set<Menu> requestSetMenu = longs.stream().map(mapFromDB::get).collect(Collectors.toSet());
@@ -103,31 +101,31 @@ public class APIv1 {
 
         String auth = request.getHeader("Authorization");
         if (auth == null) {
-            return ResponseEntity.status(404).body("You have to login by Basic Auth");
+            return ResponseEntity.status(403).body("You have to login by Basic Auth");
         }
 
         String json = request.getHeader("Content-Type");
         if (json == null || !json.equals("application/json")) {
-            return ResponseEntity.status(404).body("You have to send JSON");
+            return ResponseEntity.status(400).body("You have to send JSON");
         }
 
         if (menu.getDish() == null || menu.getPrice() == 0.0) {
-            return ResponseEntity.status(404).body("You need to fill 'dish' and 'price'");
+            return ResponseEntity.status(400).body("You need to fill 'dish' and 'price'");
         }
 
         boolean idExist = menuService.getList().stream().anyMatch(m -> m.getId() == menu_id);
         if (!idExist) {
-            return ResponseEntity.status(404).body("There is no menu with this ID");
+            return ResponseEntity.status(400).body("There is no menu with this ID");
         }
 
         if (!menu.getRests().isEmpty()) {
-            return ResponseEntity.status(404).body("You can add menu only from a restaurant, not vice versa");
+            return ResponseEntity.status(400).body("You can add menu only from a restaurant, not vice versa");
         }
 
         boolean exists = menuService.getList().stream().anyMatch(m -> m.getDish().equals(menu.getDish())
                 && m.getPrice() == menu.getPrice());
         if (exists) {
-            return ResponseEntity.status(404).body("Such dish with the same price already exists");
+            return ResponseEntity.status(400).body("Such dish with the same price already exists");
         }
 
         menuService.updateById(menu_id, menu);
@@ -136,32 +134,30 @@ public class APIv1 {
     }
 
     //add a new restaurant
-    @RequestMapping(value = "/restaurants", method = RequestMethod.POST,
-            consumes = "application/json")
-    @ResponseBody
+    @PostMapping(value = "/restaurants", consumes = "application/json")
     public ResponseEntity<?> saveRest(@RequestBody Restaurant restaurant,
                                       HttpServletRequest request) {
         String auth = request.getHeader("Authorization");
         if (auth == null) {
-            return ResponseEntity.status(404).body("You have to login by Basic Auth");
+            return ResponseEntity.status(403).body("You have to login by Basic Auth");
         }
 
         String json = request.getHeader("Content-Type");
         if (json == null || !json.equals("application/json")) {
-            return ResponseEntity.status(404).body("You have to send JSON");
+            return ResponseEntity.status(400).body("You have to send JSON");
         }
 
         if (!restaurant.getMenu().isEmpty()) {
-            return ResponseEntity.status(404).body("You need to create a restaurant and only then choose menu");
+            return ResponseEntity.status(400).body("You need to create a restaurant and only then choose menu");
         }
 
         if (restaurant.getName() == null) {
-            return ResponseEntity.status(404).body("You need to fill 'name'");
+            return ResponseEntity.status(400).body("You need to fill 'name'");
         }
 
         boolean exists = restService.getList().stream().anyMatch(r -> r.getName().equals(restaurant.getName()));
         if (exists) {
-            return ResponseEntity.status(404).body("Such restaurant already exists");
+            return ResponseEntity.status(400).body("Such restaurant already exists");
         }
 
         long id = restService.add(restaurant);
@@ -170,30 +166,28 @@ public class APIv1 {
     }
 
     //add new menu
-    @RequestMapping(value = "/menu", method = RequestMethod.POST,
-            consumes = "application/json")
-    @ResponseBody
+    @PostMapping(value = "/menu", consumes = "application/json")
     public ResponseEntity<?> saveMenu(@RequestBody Menu menu,
                                       HttpServletRequest request) {
 
         String auth = request.getHeader("Authorization");
         if (auth == null) {
-            return ResponseEntity.status(404).body("You have to login by Basic Auth");
+            return ResponseEntity.status(403).body("You have to login by Basic Auth");
         }
 
         String json = request.getHeader("Content-Type");
         if (json == null || !json.equals("application/json")) {
-            return ResponseEntity.status(404).body("You have to send JSON");
+            return ResponseEntity.status(400).body("You have to send JSON");
         }
 
         if (menu.getDish() == null || menu.getPrice() == 0.0) {
-            return ResponseEntity.status(404).body("You need to fill 'dish' and 'price'");
+            return ResponseEntity.status(400).body("You need to fill 'dish' and 'price'");
         }
 
         boolean exists = menuService.getList().stream().anyMatch(m -> m.getDish().equals(menu.getDish())
                 && m.getPrice() == menu.getPrice());
         if (exists) {
-            return ResponseEntity.status(404).body("Such dish with the same price already exists");
+            return ResponseEntity.status(400).body("Such dish with the same price already exists");
         }
 
         menuService.add(menu);
@@ -209,7 +203,7 @@ public class APIv1 {
         String auth = request.getHeader("Authorization");
 
         if (auth == null) {
-            return ResponseEntity.status(404).body("You have to login by Basic Auth");
+            return ResponseEntity.status(403).body("You have to login by Basic Auth");
         }
 
         final String encodedUserPassword = auth.replaceFirst("Basic"
@@ -231,14 +225,14 @@ public class APIv1 {
                 && us.getPassword().equals(password)).findFirst().orElse(null);
 
         if (user == null) {
-            return ResponseEntity.status(404).body("you need to register first");
+            return ResponseEntity.status(406).body("you need to register first");
         }
 
         Restaurant restFromDB = restService.getById(rest_id);
 
 
         if (restFromDB == null) {
-            return ResponseEntity.status(404).body("There is no restaurants by the ID");
+            return ResponseEntity.status(400).body("There is no restaurants by the ID");
         }
 
         Restaurant restFromUser = user.getRest();
@@ -254,7 +248,7 @@ public class APIv1 {
                     && (tsFromDb.toString().substring(0, 11).equals(now.toString().substring(0, 11))
                     && (Integer.valueOf(now.toString().substring(11, 13)) >= 11))) {
 
-                return ResponseEntity.status(200).body("You can't change your order after 11");
+                return ResponseEntity.status(406).body("You can't change your order after 11");
             }
         }
 
@@ -266,13 +260,12 @@ public class APIv1 {
 
     //registration
     @PostMapping(value = "/users")
-    @ResponseBody
     public ResponseEntity<?> saveUser(HttpServletRequest request) {
 
         String auth = request.getHeader("Authorization");
 
         if (auth == null) {
-            return ResponseEntity.status(404).body("You have to login by Basic Auth");
+            return ResponseEntity.status(403).body("You have to login by Basic Auth");
         }
 
         final String encodedUserPassword = auth.replaceFirst("Basic"
@@ -295,7 +288,7 @@ public class APIv1 {
         if (users != null && !users.isEmpty()) {
             boolean exists = users.stream().anyMatch(us -> us.getUsername().equals(username));
             if (exists) {
-                return ResponseEntity.status(404).body("Such user already exists");
+                return ResponseEntity.status(400).body("Such user already exists");
             }
         }
 
@@ -305,7 +298,7 @@ public class APIv1 {
 
         Role roleUser = roleService.getById(1L);
         if (roleUser == null) {
-            return ResponseEntity.status(404).body("There is no roles in the database");
+            return ResponseEntity.status(406).body("There is no roles in the database");
         }
         newUser.getRoles().add(roleUser);
 
